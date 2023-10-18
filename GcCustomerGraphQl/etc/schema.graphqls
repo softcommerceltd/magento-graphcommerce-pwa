@@ -1,0 +1,6 @@
+# Copyright © Soft Commerce Ltd. All rights reserved.
+# See LICENSE.txt for license details.
+
+type StoreConfig {
+    customer_address_street_lines : String @doc(description: "The number of street lines.")
+}

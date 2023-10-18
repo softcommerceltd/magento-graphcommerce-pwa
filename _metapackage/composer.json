@@ -1,0 +1,8 @@
+{
+    "name": "softcommerce/magento-graphcommerce-pwa",
+    "description": "GraphCommerce PWA metapackage",
+    "require": {
+        "softcommerce/module-gc-customer-graph-ql": "*"
+    },
+    "type": "metapackage"
+}

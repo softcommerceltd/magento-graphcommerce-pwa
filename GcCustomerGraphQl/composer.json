@@ -1,0 +1,22 @@
+{
+    "name": "softcommerce/module-gc-customer-graph-ql",
+    "description": "Magento - GraphCommerce: Customer GraphQl.",
+    "require": {
+        "php": "~8.0.0||~8.1.0||~8.2.0",
+        "magento/module-customer-graph-ql": "^100.4"
+    },
+    "type": "magento2-module",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
+    "autoload": {
+        "files": [
+            "registration.php"
+        ],
+        "psr-4": {
+            "SoftCommerce\\Core\\": ""
+        }
+    },
+    "version": "1.0.0"
+}
