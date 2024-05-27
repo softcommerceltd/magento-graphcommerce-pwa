@@ -1,0 +1,35 @@
+sources:
+  - name: hygraph
+    handler:
+      graphql:
+        useGETForQueries: true
+        endpoint: '{graphCommerce.hygraphEndpoint}'
+        operationHeaders:
+          gcms-locales: "{context.headers['gcms-locales']}"
+    transforms:
+      - filterSchema:
+          filters:
+            # Remove mutations: `mutation { * }`
+            - 'Mutation.!*'
+            # Remove queries: `query { node, row*, asset*, scheduled*, *Version, user* }`
+            - 'Query.!{node,asset*,scheduled*,*Version,user*}'
+            # Remove field arguments: `query { anyfield(after,before,last,forceParentLocale,locales) { ... } }`
+            - '*.*.!{after,before,last,forceParentLocale,locales}'
+            # Remove type any input or type fields: `input MyInput {}` or `type MyType { anyfield }`
+            - '*.!{localizations,scheduledIn,documentInStages*,createdAt*,updatedAt*,publishedAt*,createdBy,updatedBy,publishedBy,history,scheduledIn*}'
+      - prune:
+          skipPruning: []
+  - name: m2
+    handler:
+      graphql:
+        endpoint: '{graphCommerce.magentoEndpoint}'
+        useGETForQueries: true
+        batch: false
+        operationHeaders:
+          Store: '{context.headers.store}'
+          Authorization: '{context.headers.authorization}'
+          X-ReCaptcha: "{context.headers['x-recaptcha']}"
+          Preview-Version: "{context.headers['preview-version']}"
+          Content-Currency: "{context.headers['content-currency']}"
+serve:
+  playground: true

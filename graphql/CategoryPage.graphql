@@ -1,0 +1,16 @@
+query CategoryPage($url: String!) {
+  ...CategoryQueryFragment
+
+  categories(filters: { url_path: { eq: $url } }) {
+    items {
+      uid
+      meta_robots
+      gc_asset {
+        ...CmsRowAssetFragment
+      }
+      gc_metadata {
+        ...CmsRowProductFragment
+      }
+    }
+  }
+}

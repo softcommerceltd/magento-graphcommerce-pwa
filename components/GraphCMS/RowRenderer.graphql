@@ -1,0 +1,20 @@
+fragment RowRenderer on Page @inject(into: ["HygraphPage"]) {
+  content {
+    __typename
+    ... on Node {
+      id
+    }
+    ...RowColumnOne
+    ...RowColumnTwo
+    ...RowColumnThree
+    ...RowBlogContent
+    ...RowHeroBanner
+    ...RowSpecialBanner
+    ...RowQuote
+    ...RowButtonLinkList
+    ...RowServiceOptions
+    ...RowContentLinks
+    ...RowProduct
+    ...RowLinks
+  }
+}

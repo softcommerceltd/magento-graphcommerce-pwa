@@ -1,0 +1,103 @@
+import { PageOptions } from '@graphcommerce/framer-next-pages'
+import { CmsPageContent } from '@graphcommerce/magento-cms'
+import { CmsPageMeta } from "@graphcommerce/magento-cms/CmsPageMeta";
+import { StoreConfigDocument } from '@graphcommerce/magento-store'
+import { GetStaticProps, LayoutOverlayHeader, LayoutTitle } from '@graphcommerce/next-ui'
+import { GetStaticPaths } from 'next'
+import { LayoutDocument, LayoutNavigation, LayoutNavigationProps } from '../../components'
+import { CmsPageDocument, CmsPageQuery } from "../../graphql/CmsPage/CmsPage.gql"
+import { CmsPageListDocument } from "../../graphql/CmsPage/CmsPageList.gql"
+import { graphqlSsrClient, graphqlSharedClient } from '../../lib/graphql/graphqlSsrClient'
+
+type Props = CmsPageQuery
+type RouteProps = { url: string[] }
+type GetPageStaticPaths = GetStaticPaths<RouteProps>
+type GetPageStaticProps = GetStaticProps<LayoutNavigationProps, Props, RouteProps>
+
+function CmsPage(props: Props) {
+  const { cmsPage } = props
+
+  return (
+    <>
+      <LayoutOverlayHeader>
+        <LayoutTitle size='small' component='span'>
+          {cmsPage?.title}
+        </LayoutTitle>
+      </LayoutOverlayHeader>
+      <CmsPageMeta
+        title={cmsPage?.content_heading}
+        meta_title={cmsPage?.meta_title}
+        meta_description={cmsPage?.meta_description}
+      />
+      <CmsPageContent
+        content_heading={cmsPage?.content_heading}
+        content={cmsPage?.content}
+      />
+    </>
+  )
+}
+
+const pageOptions: PageOptions<LayoutNavigationProps> = {
+  Layout: LayoutNavigation,
+}
+CmsPage.pageOptions = pageOptions
+
+export default CmsPage
+
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-expect-error
+export const getStaticPaths: GetPageStaticPaths = async ({ locales = [] }) => {
+  // if (process.env.NODE_ENV === 'development') return { paths: [], fallback: 'blocking' }
+
+  const path = async (locale: string) => {
+    const client = graphqlSsrClient(locale)
+    const { data } = await client.query({
+      query: CmsPageListDocument
+    })
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    return data?.CmsPageList?.items.map((page) => ({
+      params: { url: page?.identifier?.split('/') }, locale
+    }))
+  }
+
+  const paths = (await Promise.all(locales.map(path))).flat(1)
+
+  return { paths, fallback: 'blocking' }
+}
+
+/**
+ * Generate staticProps
+ * @param locale
+ * @param params
+ */
+export const getStaticProps: GetPageStaticProps = async ({ locale, params }) => {
+  const url = params?.url.join('/')
+  if (!url) return { notFound: true }
+
+  const client = graphqlSharedClient(locale)
+  const staticClient = graphqlSsrClient(locale)
+
+  const cmsPage = staticClient.query({
+    query: CmsPageDocument,
+    variables: { url },
+  })
+
+  const conf = client.query({ query: StoreConfigDocument })
+  const layout = staticClient.query({
+    query: LayoutDocument,
+    fetchPolicy: 'cache-first',
+  })
+
+  if (!(await cmsPage).data.cmsPage) return { notFound: true }
+
+  return {
+    props: {
+      ...(await cmsPage).data,
+      ...(await layout).data,
+      apolloState: await conf.then(() => client.cache.extract()),
+    },
+    revalidate: 60 * 20,
+  }
+}
