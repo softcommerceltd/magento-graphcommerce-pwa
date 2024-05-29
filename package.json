@@ -78,7 +78,7 @@
     "@mui/material": "^5.15.18",
     "@next/env": "14.1.0",
     "@parcel/watcher": "^2.4.0",
-    "@softcommerce/graphcommerce-magento-cms": "^1.0.3",
+    "@softcommerce/graphcommerce-magento-cms": "^1.0.4",
     "concurrently": "8.2.2",
     "cross-env": "^7.0.3",
     "dotenv": "16.3.1",
