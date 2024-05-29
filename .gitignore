@@ -30,3 +30,7 @@ yarn-error.log*
 # application
 .mesh
 *.tsbuildinfo
+
+# configs
+graphcommerce.config.js
+graphcommerce.config.js.bk
