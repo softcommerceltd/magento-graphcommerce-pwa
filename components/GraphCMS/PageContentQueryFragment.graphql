@@ -11,9 +11,6 @@ fragment PageContentQueryFragment on Query {
       title
       url
     }
-    asset {
-      ...Asset
-    }
     ...RowRenderer
   }
 }

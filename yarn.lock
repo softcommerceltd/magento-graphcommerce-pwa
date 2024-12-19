@@ -3529,10 +3529,10 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
   integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
 
-"@softcommerce/graphcommerce-magento-cms@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@softcommerce/graphcommerce-magento-cms/-/graphcommerce-magento-cms-1.0.3.tgz#344543f30484656dcd5ef3e2fa46b44acb451175"
-  integrity sha512-Dqvj6eADzjZt10mYjuGkYB8zhq04kMv2Gt7h4uRU2S/6BCdKmguK85XnqWz4d+lFJX1/tbn2M5A+vEUlE3HQBw==
+"@softcommerce/graphcommerce-magento-cms@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@softcommerce/graphcommerce-magento-cms/-/graphcommerce-magento-cms-1.0.4.tgz#9bd2086aaa859fd1caf5943d6433d703e197597e"
+  integrity sha512-8bmkRYU2DK78bGkIXvVtIjKNvzsuhMbM/qDsPga3bcb5oW5MWlfk9+Xk5Mg7cmHquV3hIHhUxUc0OlHA3Bcl+w==
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
